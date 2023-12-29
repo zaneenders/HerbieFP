@@ -1,6 +1,18 @@
-// swift-tools-version: 5.8
+// swift-tools-version: 5.9
 
 import PackageDescription
+
+let swiftSettings: [SwiftSetting] = [
+    .enableUpcomingFeature("BareSlashRegexLiterals"),
+    .enableUpcomingFeature("ConciseMagicFile"),
+    .enableUpcomingFeature("ExistentialAny"),
+    .enableUpcomingFeature("ForwardTrailingClosures"),
+    .enableUpcomingFeature("ImplicitOpenExistentials"),
+    .enableUpcomingFeature("StrictConcurrency"),
+    .unsafeFlags([
+        "-warn-concurrency", "-enable-actor-data-race-checks",
+    ]),
+]
 
 let package = Package(
     name: "HerbieFP",
@@ -14,13 +26,15 @@ let package = Package(
         .executable(name: "herbie-helper", targets: ["HerbieHelper"])
     ],
     dependencies: [
-        .package(name: "ScribeSystem", path: "../ScribeSystem/")
+        .package(
+            url: "git@github.com:zaneenders/ScribeSystem.git",
+            from: "0.0.2")
     ],
     targets: [
         .executableTarget(
             name: "HerbieHelper",
             dependencies: [
                 .product(name: "ScribeSystem", package: "ScribeSystem")
-            ])
+            ], swiftSettings: swiftSettings)
     ]
 )
