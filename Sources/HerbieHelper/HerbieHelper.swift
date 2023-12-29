@@ -18,6 +18,12 @@ struct HerbieHelper {
             }
         }
         let herbieRepo = herbieFPPath + "/herbie"
+        if !FileSystem.fileExists(atPath: herbieRepo)
+            && CommandLine.arguments[1] != "setup"
+        {
+            print("please run setup")
+            return
+        }
         if CommandLine.arguments.count > 1 {
             if CommandLine.arguments[1] == "open" {
                 // TODO Open firefox to localhost
