@@ -56,7 +56,7 @@ struct HerbieHelper {
             }
             if CommandLine.arguments[1] == "test" {
                 try? await System.shell(
-                    "cd \(herbieFPPath) && racket -y src/herbie.rkt improve --seed 0 zane-test.fpcore -"
+                    "cd \(herbieFPPath) && racket -y \(herbieFPPath)/herbie/src/herbie.rkt improve --seed 0 \(herbieFPPath)/herbie/zane-test.fpcore -"
                 )
             }
             if CommandLine.arguments[1] == "setup" {

@@ -16,7 +16,8 @@ let package = Package(
     dependencies: [
         .package(
             url: "git@github.com:zaneenders/ScribeSystem.git",
-            from: "0.0.2")
+            revision: "9d83daf")
+        // .package(name: "ScribeSystem", path: "../ScribeSystem/"),
     ],
     targets: [
         .executableTarget(
