@@ -98,7 +98,9 @@ struct HerbieHelper {
                 )
             }
             if CommandLine.arguments[1] == "http" {
-                if CommandLine.arguments.count > 3 && CommandLine.arguments[2] == "hamming" {
+                if CommandLine.arguments.count > 3
+                    && CommandLine.arguments[2] == "hamming"
+                {
                     try? httpServer(
                         "/home/zane/.scribe/Packages/HerbieFP/herbie-fp/herbie/reports/hamming"
                     )
