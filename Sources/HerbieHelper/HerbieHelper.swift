@@ -54,6 +54,24 @@ struct HerbieHelper {
                     print("Error relinking files")
                 }
             }
+            if CommandLine.arguments[1] == "math" {
+                do {
+                    try await _report(
+                        path: herbieRepo, .mathematics)
+                } catch {
+                    print(error.localizedDescription)
+                    print("Error relinking files")
+                }
+            }
+            if CommandLine.arguments[1] == "hamming" {
+                do {
+                    try await _report(
+                        path: herbieRepo, .hamming)
+                } catch {
+                    print(error.localizedDescription)
+                    print("Error relinking files")
+                }
+            }
             if CommandLine.arguments[1] == "test" {
                 try? await System.shell(
                     "cd \(herbieFPPath) && racket -y \(herbieFPPath)/herbie/src/herbie.rkt improve --seed 0 \(herbieFPPath)/herbie/zane-test.fpcore -"
@@ -67,13 +85,39 @@ struct HerbieHelper {
                     print("Error Setting up Herbie")
                 }
             }
+
+            if CommandLine.arguments[1] == "merge" {
+                var reportNames: [String] = []
+                for b in Folder.allCases {
+                    guard b != .nightly else { continue }
+                    reportNames.append("\"\(b)\"")
+                }
+                let reportsString = reportNames.joined(separator: " ")
+                try? await System.shell(
+                    "racket -y infra/merge.rkt \"reports/\" \(reportsString)"
+                )
+            }
+            if CommandLine.arguments[1] == "http" {
+                if CommandLine.arguments.count > 3 && CommandLine.arguments[2] == "hamming" {
+                    try? httpServer(
+                        "/home/zane/.scribe/Packages/HerbieFP/herbie-fp/herbie/reports/hamming"
+                    )
+                } else {
+                    try? httpServer(
+                        "/home/zane/.scribe/Packages/HerbieFP/herbie-fp/herbie/reports"
+                    )
+                }
+            }
         } else {
-            try? httpServer(
-                "/home/zane/.scribe/Packages/HerbieFP/herbie-fp/herbie/reports")
+            print("please pass a command")
         }
     }
 
     public static func _report(path: String, _ folder: Folder) async throws {
+        // if folder != .nightly {
+        //     print("Not finished please fix future Zane")
+        //     return
+        // }
         print("Are you sure?")
         guard let line = readLine(strippingNewline: true) else {
             print("unable to get response")
@@ -114,10 +158,18 @@ struct HerbieHelper {
                         "\(basePath)/\(b)"
                     try FileSystem.createDirectory(at: outputPath)
                     let cmd =
-                        "racket -y src/herbie.rkt report --threads \(System.coreCount) --seed 0 bench/\(b.path) \(testPath)/\(b)"
+                        "racket -y \(path)/src/herbie.rkt report --threads \(System.coreCount) --seed 0 \(path)/bench/\(b.path) \(path)/\(testPath)/\(b)"
+                    print(cmd)
                     try await System.shell("cd \(path) && \(cmd)")
                 }
                 reportsString = reportNames.joined(separator: " ")
+                print("Running infra/merge.rkt")
+
+                // can't use absoute path
+                try await System.shell(
+                    "cd \(path) && racket -y infra/merge.rkt \"reports/\" \(path)/\(reportsString)"
+                )
+                try await _relink(folder)
             } else {
                 print("running \(folder) report")
                 let outputPath: String =
@@ -125,16 +177,21 @@ struct HerbieHelper {
                 print(outputPath)
                 try FileSystem.createDirectory(at: outputPath)
                 let cmd =
-                    "racket -y src/herbie.rkt report --threads \(System.coreCount) --seed 0 bench/\(folder.path) \(testPath)/\(folder)"
+                    "racket -y \(path)/src/herbie.rkt report --threads \(System.coreCount) --seed 0 \(path)/bench/\(folder.path) \(path)/\(testPath)/\(folder)"
                 try await System.shell("cd \(path) && \(cmd)")
                 reportsString = "\(folder.rawValue)"
+
+                let mergeCMD =
+                    "racket -y \(path)/infra/merge.rkt \"reports/\(folder)\" \(path)/\(folder)/\(reportsString)"
+                print("merge")
+                print(mergeCMD)
+                print("merge")
+                try await System.shell(
+                    "cd \(path) && \(mergeCMD)"
+                )
+                // try await _relink(folder)
             }
-            print("Running infra/merge.rkt")
-            try await System.shell(
-                "cd \(path) && racket -y infra/merge.rkt \"reports/\" \(reportsString)"
-            )
         }
-        try await _relink(folder)
     }
 
     public static func _relink(_ folder: Folder) async throws {
