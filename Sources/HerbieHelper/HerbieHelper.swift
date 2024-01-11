@@ -73,8 +73,9 @@ struct HerbieHelper {
                 }
             }
             if CommandLine.arguments[1] == "test" {
+                // reprots is more usefull to test with because you get the trac back
                 try? await System.shell(
-                    "cd \(herbieFPPath) && racket -y \(herbieFPPath)/herbie/src/herbie.rkt improve --seed 0 \(herbieFPPath)/herbie/zane-test.fpcore -"
+                    "racket -y \(herbieFPPath)/herbie/src/herbie.rkt report --threads \(System.coreCount) --seed 0 \(herbieFPPath)/herbie/zane-test.fpcore \(herbieFPPath)/herbie/test"
                 )
             }
             if CommandLine.arguments[1] == "setup" {
@@ -98,12 +99,20 @@ struct HerbieHelper {
                 )
             }
             if CommandLine.arguments[1] == "http" {
-                if CommandLine.arguments.count > 3
-                    && CommandLine.arguments[2] == "hamming"
+                print(CommandLine.arguments.count)
+                if CommandLine.arguments.count >= 3
                 {
-                    try? httpServer(
-                        "/home/zane/.scribe/Packages/HerbieFP/herbie-fp/herbie/reports/hamming"
-                    )
+                    if CommandLine.arguments[2] == "hamming" {
+                        try? httpServer(
+                            "/home/zane/.scribe/Packages/HerbieFP/herbie-fp/herbie/reports/hamming"
+                        )
+                    }
+                    if CommandLine.arguments[2] == "test" {
+                        print("test http")
+                        try? httpServer(
+                            "/home/zane/.scribe/Packages/HerbieFP/herbie-fp/herbie/test"
+                        )
+                    }
                 } else {
                     try? httpServer(
                         "/home/zane/.scribe/Packages/HerbieFP/herbie-fp/herbie/reports"
