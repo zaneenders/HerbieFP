@@ -100,8 +100,7 @@ struct HerbieHelper {
             }
             if CommandLine.arguments[1] == "http" {
                 print(CommandLine.arguments.count)
-                if CommandLine.arguments.count >= 3
-                {
+                if CommandLine.arguments.count >= 3 {
                     if CommandLine.arguments[2] == "hamming" {
                         try? httpServer(
                             "/home/zane/.scribe/Packages/HerbieFP/herbie-fp/herbie/reports/hamming"

@@ -26,7 +26,8 @@ extension HerbieHelper {
                 */
                 // build racket
                 // TODO check if already running
-                try await System.shell("cd \(racketPath) && git checkout v8.11.1")
+                try await System.shell(
+                    "cd \(racketPath) && git checkout v8.11.1")
                 try await System.shell("cd \(racketPath) && make")
             }
 
