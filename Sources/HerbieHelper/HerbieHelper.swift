@@ -75,7 +75,7 @@ struct HerbieHelper {
             if CommandLine.arguments[1] == "test" {
                 // reprots is more usefull to test with because you get the trac back
                 try? await System.shell(
-                    "racket -y \(herbieFPPath)/herbie/src/herbie.rkt report --threads \(System.coreCount) --seed 0 \(herbieFPPath)/herbie/zane-test.fpcore \(herbieFPPath)/herbie/test"
+                    "racket -y \(herbieFPPath)/herbie/src/herbie.rkt report --threads \(System.coreCount) --seed 0 \(herbieFPPath)/herbie/zane/zane-test.fpcore \(herbieFPPath)/herbie/zane/test"
                 )
             }
             if CommandLine.arguments[1] == "setup" {
@@ -98,6 +98,7 @@ struct HerbieHelper {
                     "racket -y infra/merge.rkt \"reports/\" \(reportsString)"
                 )
             }
+
             if CommandLine.arguments[1] == "http" {
                 print(CommandLine.arguments.count)
                 if CommandLine.arguments.count >= 3 {
@@ -109,7 +110,7 @@ struct HerbieHelper {
                     if CommandLine.arguments[2] == "test" {
                         print("test http")
                         try? httpServer(
-                            "/home/zane/.scribe/Packages/HerbieFP/herbie-fp/herbie/test"
+                            "/home/zane/.scribe/Packages/HerbieFP/herbie-fp/herbie/zane/test"
                         )
                     }
                 } else {
