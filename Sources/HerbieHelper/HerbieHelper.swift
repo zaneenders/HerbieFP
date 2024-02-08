@@ -74,6 +74,7 @@ struct HerbieHelper {
             }
             if CommandLine.arguments[1] == "test" {
                 // reprots is more usefull to test with because you get the trac back
+                print("racket -y src/herbie.rkt report --threads \(System.coreCount) --seed 0 zane/zane-test.fpcore zane/test")
                 try? await System.shell(
                     "racket -y \(herbieFPPath)/herbie/src/herbie.rkt report --threads \(System.coreCount) --seed 0 \(herbieFPPath)/herbie/zane/zane-test.fpcore \(herbieFPPath)/herbie/zane/test"
                 )
