@@ -74,12 +74,34 @@ struct HerbieHelper {
             }
             if CommandLine.arguments[1] == "test" {
                 // reprots is more usefull to test with because you get the trac back
-                print("racket -y src/herbie.rkt report --threads \(System.coreCount) --seed 0 zane/zane-test.fpcore zane/test")
+                print(
+                    "racket -y src/herbie.rkt report --threads \(System.coreCount) --seed 0 zane/zane-test.fpcore zane/test"
+                )
                 try? await System.shell(
                     "racket -y \(herbieFPPath)/herbie/src/herbie.rkt report --threads \(System.coreCount) --seed 0 \(herbieFPPath)/herbie/zane/zane-test.fpcore \(herbieFPPath)/herbie/zane/test"
                 )
             }
             if CommandLine.arguments[1] == "setup" {
+                if CommandLine.arguments.count > 2
+                    && CommandLine.arguments[2] == "test"
+                {
+                    let zaneDir = herbieRepo + "/zane"
+                    try! FileSystem.createDirectory(at: zaneDir)
+                    try! FileSystem.write(
+                        string: "*", to: zaneDir + "/.gitignore")
+                    let testCore = """
+                        (FPCore (x eps)
+                          :name "2cos (problem 3.3.5)"
+                          :precision binary64
+                          (- (cos (+ x eps)) (cos x)))
+                        """
+                    try! FileSystem
+                        .write(
+                            string: testCore,
+                            to: zaneDir + "/zane-test.fpcore")
+                    print("created: \(zaneDir)")
+                    return
+                }
                 do {
                     try await setupHerbie(at: herbieFPPath)
                 } catch {
