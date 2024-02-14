@@ -90,10 +90,20 @@ struct HerbieHelper {
                     try! FileSystem.write(
                         string: "*", to: zaneDir + "/.gitignore")
                     let testCore = """
-                        (FPCore (x eps)
-                          :name "2cos (problem 3.3.5)"
-                          :precision binary64
-                          (- (cos (+ x eps)) (cos x)))
+                        (FPCore (a b c)
+                         :name "quadp (p42, positive)"
+                         :herbie-expected 10
+                         :herbie-target ; From Racket Math Lib implementation
+                         (let ([sqtD
+                          (let ([x (* (sqrt (fabs a)) (sqrt (fabs c)))])
+                            (if (== (copysign a c) a)
+                              (* (sqrt (- (fabs (/ b 2)) x)) (sqrt (+ (fabs (/ b 2)) x)))
+                              (hypot (/ b 2) x)))])
+                            (if (< b 0) (/ (- sqtD (/ b 2)) a)
+                              (/ (- c) (+ (/ b 2) sqtD))))
+
+                         (let ([d (sqrt (- (* b b) (* 4 (* a c))))])
+                           (/ (+ (- b) d) (* 2 a))))
                         """
                     try! FileSystem
                         .write(
