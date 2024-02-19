@@ -1,6 +1,9 @@
 # Herbie Questions
 
 ## Regimes
+using command for testing
+racket infra/ci.rkt --precision binary64 --seed 0 bench/hamming/
+
 - Input
     Called I number of times per problem
     Contains CA number of candidates/ alternatives
