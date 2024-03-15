@@ -73,13 +73,29 @@ struct HerbieHelper {
                 }
             }
             if CommandLine.arguments[1] == "test" {
-                // reprots is more usefull to test with because you get the trac back
-                print(
-                    "racket -y src/herbie.rkt report --threads \(System.coreCount) --seed 0 zane/zane-test.fpcore zane/test"
-                )
-                try? await System.shell(
-                    "racket -y \(herbieFPPath)/herbie/src/herbie.rkt report --threads \(System.coreCount) --seed 0 \(herbieFPPath)/herbie/zane/zane-test.fpcore \(herbieFPPath)/herbie/zane/test"
-                )
+                if CommandLine.arguments.count > 2
+                    && CommandLine.arguments[2] == "points"
+                {
+                    let cmd =
+                        "racket -y \(herbieFPPath)/herbie/src/herbie.rkt report --threads \(System.coreCount) --seed 0 --num-points 10 --timeout 3000 \(herbieFPPath)/herbie/zane/zane-test.fpcore \(herbieFPPath)/herbie/zane/test"
+                    print(cmd)
+                    try? await System.shell(cmd)
+                } else if CommandLine.arguments.count > 2
+                    && CommandLine.arguments[2] == "inters"
+                {
+                    let cmd =
+                        "racket -y \(herbieFPPath)/herbie/src/herbie.rkt report --threads \(System.coreCount) --seed 0 --num-iters 100 --timeout 3000 \(herbieFPPath)/herbie/zane/zane-test.fpcore \(herbieFPPath)/herbie/zane/test"
+                    print(cmd)
+                    try? await System.shell(cmd)
+                } else {
+                    // reprots is more usefull to test with because you get the trac back
+                    print(
+                        "racket -y src/herbie.rkt report --threads \(System.coreCount) --seed 0 zane/zane-test.fpcore zane/test"
+                    )
+                    try? await System.shell(
+                        "racket -y \(herbieFPPath)/herbie/src/herbie.rkt report --threads \(System.coreCount) --seed 0 \(herbieFPPath)/herbie/zane/zane-test.fpcore \(herbieFPPath)/herbie/zane/test"
+                    )
+                }
             }
             if CommandLine.arguments[1] == "setup" {
                 if CommandLine.arguments.count > 2
@@ -144,6 +160,18 @@ struct HerbieHelper {
                         print("test http")
                         try? httpServer(
                             "/home/zane/.scribe/Packages/HerbieFP/herbie-fp/herbie/zane/test"
+                        )
+                    }
+                    if CommandLine.arguments[2] == "main" {
+                        print("main http")
+                        try? httpServer(
+                            "/home/zane/.scribe/Packages/HerbieFP/herbie-fp/herbie/zane/main"
+                        )
+                    }
+                    if CommandLine.arguments[2] == "unsafe" {
+                        print("unsafe http")
+                        try? httpServer(
+                            "/home/zane/.scribe/Packages/HerbieFP/herbie-fp/herbie/zane/unsafe"
                         )
                     }
                 } else {

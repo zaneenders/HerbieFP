@@ -1,8 +1,21 @@
-# Herbie Questions
+# Herbie
+
+## Nightly
+https://nightly.cs.washington.edu/
 
 ## Regimes
 using command for testing
 racket infra/ci.rkt --precision binary64 --seed 0 bench/hamming/
+
+### Points testing 
+1000 points
+1/1   [ 114.2s]   30% →  53%  Linear.Matrix:det44 from linear-1.19.1.3
+1/1   [ 298.2s]   30% →  53%  Linear.Matrix:det44 from linear-1.19.1.3
+
+### Inters testing
+100 iterations
+1/1   [  59.8s]   30% →  37%  Linear.Matrix:det44 from linear-1.19.1.3
+1/1   [  98.2s]   30% →  40%  Linear.Matrix:det44 from linear-1.19.1.3
 
 - Input
     Called I number of times per problem
