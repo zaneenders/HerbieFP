@@ -11,7 +11,10 @@ final class FPCoreParserTests: XCTestCase {
             """
         do {
             let tokens = try tokens(fpCore)
-            let fpCore = parse(tokens)
+            guard let fpCore = parse(tokens) else {
+                XCTFail("unable to parse")
+                return
+            }
             XCTAssertEqual(tokens.count, 54)
             let exp: Expr = .operation(
                 .fabs,
@@ -44,7 +47,16 @@ final class FPCoreParserTests: XCTestCase {
 
                         ])
                 ])
-            let expected = FPCore(exp)
+            var expected = FPCore(exp)
+            let args: [Argument] = [
+                .symbol(Symbol("x")),
+                .symbol(Symbol("y")),
+                .symbol(Symbol("z")),
+            ]
+            expected.arguments = args
+            var props = Properties()
+            props.props[Symbol("name")] = .string("\"fabs fraction 1\"")
+            expected.properties = props
             XCTAssertEqual(fpCore, expected)
         } catch LexingError.couldNotConsume(let str) {
             XCTFail(str)

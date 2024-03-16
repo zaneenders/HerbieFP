@@ -1,23 +1,87 @@
-public func parse(_ tokens: [Token]) -> FPCore {
-    parseFPCore(0, tokens)
-    let exp: Expr = .symbol(Symbol(""))
-    return FPCore(exp)
+public func parse(_ tokens: [Token]) -> FPCore? {
+    return parseFPCore(0, tokens)
 }
 
-private func parseFPCore(_ index: Int, _ tokens: [Token]) {
+private func parseFPCore(_ index: Int, _ tokens: [Token]) -> FPCore? {
     var i = consumeWhiteSpace(index, tokens)
     guard peekLeftParen(i, tokens) && peekFPCore(i + 1, tokens) else {
-        return
+        return nil
     }
     i += 2
+    // TODO check for optional Symbol
     guard let (ai, args) = consumeArguments(i, tokens) else {
-        return
+        return nil
     }
     i = ai
     let (pi, props) = consumeProperties(i, tokens)
     i = pi
-    print(props)
-    print("here: \(tokens[i])")
+    guard let (ei, expr) = consumeExpr(i, tokens) else {
+        return nil
+    }
+    guard peekRightParen(ei, tokens) else {
+        return nil
+    }
+    var fp = FPCore(expr)
+    fp.arguments = args
+    fp.properties = props
+    return fp
+}
+
+private func consumeExpr(_ index: Int, _ tokens: [Token]) -> (Int, Expr)? {
+    var i = consumeWhiteSpace(index, tokens)
+    switch tokens[i].type {
+    case .number(.decieml(let d)):
+        return (i + 1, .number(.decnum(d)))
+    case .symbol(let sym):
+        return (i + 1, .symbol(Symbol(sym)))
+    case .leftParen:
+        i = consumeWhiteSpace(i + 1, tokens)
+        guard let (oi, op) = consumeOperation(i, tokens) else {
+            return nil
+        }
+        i = consumeWhiteSpace(oi, tokens)
+        var exprs: [Expr] = []
+        guard let (ei, e) = consumeExpr(i, tokens) else {
+            return nil
+        }
+        exprs.append(e)
+        i = ei
+        while let (xi, exp) = consumeExpr(i, tokens) {
+            i = xi
+            exprs.append(exp)
+        }
+        i = consumeWhiteSpace(i, tokens)
+        guard peekRightParen(i, tokens) else {
+            return nil
+        }
+        return (i + 1, .operation(op, exprs))
+    default:
+        return nil
+    }
+}
+
+private func consumeOperation(_ index: Int, _ tokens: [Token]) -> (
+    Int, Operation
+)? {
+    switch tokens[index].type {
+    case .symbol(let s):
+        switch s {
+        case "fabs":
+            return (index + 1, .fabs)
+        case "+":
+            return (index + 1, .plus)
+        case "-":
+            return (index + 1, .minus)
+        case "/":
+            return (index + 1, .div)
+        case "*":
+            return (index + 1, .times)
+        default:
+            return nil
+        }
+    default:
+        return nil
+    }
 }
 
 private func consumeProperties(_ index: Int, _ tokens: [Token]) -> (
