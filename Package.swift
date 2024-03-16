@@ -11,7 +11,8 @@ let package = Package(
         .watchOS(.v8),
     ],
     products: [
-        .executable(name: "herbie-helper", targets: ["HerbieHelper"])
+        .executable(name: "herbie-helper", targets: ["HerbieHelper"]),
+        .library(name: "FPCoreParser", targets: ["FPCoreParser"]),
     ],
     dependencies: [
         .package(
@@ -24,7 +25,9 @@ let package = Package(
             name: "HerbieHelper",
             dependencies: [
                 .product(name: "ScribeSystem", package: "ScribeSystem")
-            ], swiftSettings: swiftSettings)
+            ], swiftSettings: swiftSettings),
+        .target(name: "FPCoreParser"),
+        .testTarget(name: "FPCoreParserTests", dependencies: ["FPCoreParser"]),
     ]
 )
 
