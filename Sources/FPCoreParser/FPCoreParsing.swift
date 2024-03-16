@@ -10,14 +10,43 @@ private func parseFPCore(_ index: Int, _ tokens: [Token]) {
         return
     }
     i += 2
-    guard let (ci, args) = consumeArguments(i, tokens) else {
+    guard let (ai, args) = consumeArguments(i, tokens) else {
         return
     }
-    i = ci
-    print(i)
-    print(args)
+    i = ai
+    let (pi, props) = consumeProperties(i, tokens)
+    i = pi
+    print(props)
     print("here: \(tokens[i])")
+}
 
+private func consumeProperties(_ index: Int, _ tokens: [Token]) -> (
+    Int, Properties
+) {
+    var i = consumeWhiteSpace(index, tokens)
+    var props = Properties()
+    while let (c, sym, data) = consumeProp(i, tokens) {
+        props.props[sym] = data
+        i = c
+    }
+    return (i, props)
+}
+
+private func consumeProp(_ index: Int, _ tokens: [Token]) -> (
+    Int, Symbol, Data
+)? {
+    var i = consumeWhiteSpace(index, tokens)
+    guard peekColen(i, tokens) else {
+        return nil
+    }
+    guard let (c, sym) = consumeSymbol(i + 1, tokens) else {
+        return nil
+    }
+    i = consumeWhiteSpace(c, tokens)
+    guard let (c, data) = consumeData(i, tokens) else {
+        return nil
+    }
+    return (c, sym, data)
 }
 
 private func consumeArguments(_ index: Int, _ tokens: [Token])
@@ -48,15 +77,34 @@ private func consumeArguments(_ index: Int, _ tokens: [Token])
     return (i + 1, args)
 }
 
-private func peekSymbol(_ index: Int, _ tokens: [Token]) -> Bool {
+private func consumeData(_ index: Int, _ tokens: [Token]) -> (Int, Data)? {
     switch tokens[index].type {
-    case .symbol(_):
+    case .symbol(let sym):
+        return (index + 1, .symbol(Symbol(sym)))
+    case .string(let str):
+        return (index + 1, .string(str))
+    default:
+        return nil
+    }
+}
+
+private func consumeSymbol(_ index: Int, _ tokens: [Token]) -> (Int, Symbol)? {
+    switch tokens[index].type {
+    case .symbol(let sym):
+        return (index + 1, Symbol(sym))
+    default:
+        return nil
+    }
+}
+
+private func peekColen(_ index: Int, _ tokens: [Token]) -> Bool {
+    switch tokens[index].type {
+    case .colen:
         return true
     default:
         return false
     }
 }
-
 private func peekFPCore(_ index: Int, _ tokens: [Token]) -> Bool {
     switch tokens[index].type {
     case .fpcore:
