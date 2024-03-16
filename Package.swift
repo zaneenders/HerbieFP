@@ -11,23 +11,23 @@ let package = Package(
         .watchOS(.v8),
     ],
     products: [
-        .executable(name: "herbie-helper", targets: ["HerbieHelper"]),
-        .library(name: "FPCoreParser", targets: ["FPCoreParser"]),
+        .executable(name: "herbie-helper", targets: ["HerbieHelper"])
     ],
     dependencies: [
         .package(
             url: "git@github.com:zaneenders/ScribeSystem.git",
-            revision: "6a23a7b")
+            revision: "6a23a7b"),
+        .package(
+            url: "git@github.com:zaneenders/FPCore.git", revision: "87ac4fc"),
         // .package(name: "ScribeSystem", path: "../ScribeSystem/"),
     ],
     targets: [
         .executableTarget(
             name: "HerbieHelper",
             dependencies: [
-                .product(name: "ScribeSystem", package: "ScribeSystem")
-            ], swiftSettings: swiftSettings),
-        .target(name: "FPCoreParser"),
-        .testTarget(name: "FPCoreParserTests", dependencies: ["FPCoreParser"]),
+                .product(name: "ScribeSystem", package: "ScribeSystem"),
+                .product(name: "FPCore", package: "FPCore"),
+            ], swiftSettings: swiftSettings)
     ]
 )
 
