@@ -8,7 +8,11 @@ final class FPCoreParserTests: XCTestCase {
              :name "fabs fraction 1"
              (fabs (- (/ (+ x 4) y) (* (/ x y) z))))
             """
-        let tokens = tokens(fpCore)
-        print(tokens)
+        do {
+            let tokens = try tokens(fpCore)
+            XCTAssertEqual(tokens.count, 54)
+        } catch LexingError.couldNotConsume(let str) {
+            XCTFail(str)
+        }
     }
 }
