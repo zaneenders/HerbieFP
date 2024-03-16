@@ -1,7 +1,7 @@
 import RegexBuilder
 
 /*
-https://fpbench.org/spec/fpcore-1.2.html#g:decnum
+https://fpbench.org/spec/fpcore-2.0.html
 */
 
 public enum FPCoreToken {
@@ -38,11 +38,11 @@ public func tokens(_ string: String) -> [FPCoreToken] {
 }
 
 func parseSymbol(_ str: Substring) -> (FPCoreToken, Int)? {
-    let r = #/[a-zA-Z~!@$%^&*_\-+=<>.?:][a-zA-Z0-9~!@$%^&*_\-+=<>.?:]*/#
+    let r = #/[a-zA-Z~!@$%^&*_\-+=<>.?/:][a-zA-Z0-9~!@$%^&*_\-+=<>.?/:]*/#
     if let match: Regex<Substring>.Match = str.prefixMatch(of: r) {
         return (
-            FPCoreToken.symbol(
-                String(match.output)), match.output.count
+            FPCoreToken.symbol(String(match.output)),
+            match.output.count
         )
     }
     return nil
