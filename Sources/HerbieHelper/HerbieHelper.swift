@@ -1,3 +1,5 @@
+import FPCore
+import Foundation
 import ScribeSystem
 
 @main
@@ -70,6 +72,16 @@ struct HerbieHelper {
                 } catch {
                     print(error.localizedDescription)
                     print("Error relinking files")
+                }
+            }
+            if CommandLine.arguments[1] == "fpcore" {
+                let str = """
+                    (FPCore (x y z)
+                     :name "fabs fraction 1"
+                     (fabs (- (/ (+ x 4) y) (* (/ x y) z))))
+                    """
+                if let fpc = try? FPCore(str) {
+                    await runFPCore(fpc)
                 }
             }
             if CommandLine.arguments[1] == "test" {
@@ -319,6 +331,24 @@ struct HerbieHelper {
                 binary: "/bin/ln", arguments: [base, dest])
         }
     }
+}
+
+public func runFPCore(_ fpCore: FPCore) async {
+    let temp = "temp"
+    let packageDir = "\(System.homePath)/.scribe/Packages/HerbieFP"
+    let herbieFPPath: String = "\(packageDir)/herbie-fp"
+    let herbieRepo = herbieFPPath + "/herbie"
+    let zaneDir = herbieRepo + "/zane"
+    let tempPath = zaneDir + "/\(temp).fpcore"
+    try? FileSystem
+        .write(
+            string: fpCore.description,
+            to: tempPath)
+    let cmd =
+        "racket -y \(herbieFPPath)/herbie/src/herbie.rkt report --threads \(System.coreCount) --seed 0 \(tempPath) \(herbieFPPath)/herbie/zane/\(temp)"
+    print(cmd)
+    try? await System.shell(cmd)
+    try? FileSystem.removeItem(atPath: tempPath)
 }
 
 public enum Folder: String, CaseIterable, CustomStringConvertible {

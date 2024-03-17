@@ -18,7 +18,7 @@ let package = Package(
             url: "git@github.com:zaneenders/ScribeSystem.git",
             revision: "6a23a7b"),
         .package(
-            url: "git@github.com:zaneenders/FPCore.git", revision: "87ac4fc"),
+            url: "git@github.com:zaneenders/FPCore.git", revision: "b1c89f0"),
         // .package(name: "ScribeSystem", path: "../ScribeSystem/"),
     ],
     targets: [
