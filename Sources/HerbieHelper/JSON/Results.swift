@@ -8,21 +8,21 @@ func parseResults() async {
         return
     }
     print(json.count)
-    do {
-        let results = try Results(json: json)
-        print(results)
-    } catch {
-        print(error)
-    }
+    // do {
+    //     let results = try Results(json: json)
+    //     print(results)
+    // } catch {
+    //     print(error)
+    // }
 }
 
-extension Results {
-    init(from decoder: Decoder) throws {
+// extension Results {
+//     init(from decoder: Decoder) throws {
         // let values = try decoder.container(keyedBy: CodingKeys.self)
         // TODO come back to this
         // https://blog.logrocket.com/simplify-json-parsing-swift-using-codable/#complex-example
-    }
-}
+//     }
+// }
 
 struct Results {
     enum CodingKeys: String, CodingKey {
