@@ -27,6 +27,14 @@ struct HerbieHelper {
             return
         }
         if CommandLine.arguments.count > 1 {
+            if CommandLine.arguments[1] == "timeline" {
+                await parseTimeline()
+                return
+            }
+            if CommandLine.arguments[1] == "results" {
+                await parseResults()
+                return
+            }
             if CommandLine.arguments[1] == "open" {
                 // TODO Open firefox to localhost
                 do {

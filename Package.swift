@@ -15,6 +15,9 @@ let package = Package(
     ],
     dependencies: [
         .package(
+            url: "git@github.com:apple/swift-nio.git",
+            from: "2.64.0"),
+        .package(
             url: "git@github.com:zaneenders/ScribeSystem.git",
             revision: "6a23a7b"),
         .package(
@@ -26,6 +29,7 @@ let package = Package(
             name: "HerbieHelper",
             dependencies: [
                 .product(name: "ScribeSystem", package: "ScribeSystem"),
+                .product(name: "_NIOFileSystem", package: "swift-nio"),
                 .product(name: "FPCore", package: "FPCore"),
             ], swiftSettings: swiftSettings)
     ]
