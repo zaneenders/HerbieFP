@@ -31,7 +31,10 @@ let package = Package(
                 .product(name: "ScribeSystem", package: "ScribeSystem"),
                 .product(name: "_NIOFileSystem", package: "swift-nio"),
                 .product(name: "FPCore", package: "FPCore"),
-            ], swiftSettings: swiftSettings)
+            ], swiftSettings: swiftSettings),
+        .testTarget(
+            name: "HerbieTests",
+            dependencies: ["HerbieHelper"]),
     ]
 )
 

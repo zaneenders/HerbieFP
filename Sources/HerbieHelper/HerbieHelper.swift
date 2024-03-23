@@ -93,6 +93,7 @@ struct HerbieHelper {
                 }
             }
             if CommandLine.arguments[1] == "test" {
+                // racket -y src/herbie.rkt report --seed 0 --num-points 10 zane/zane-test.fpcore zane/test
                 if CommandLine.arguments.count > 2
                     && CommandLine.arguments[2] == "points"
                 {

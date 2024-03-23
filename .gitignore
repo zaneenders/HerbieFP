@@ -7,4 +7,6 @@
 Package.resolved
 # VS Code generated files
 /.vscode
+# Herbie
 /herbie-fp/*
+idk.json
