@@ -27,6 +27,10 @@ struct HerbieHelper {
             return
         }
         if CommandLine.arguments.count > 1 {
+            if CommandLine.arguments[1] == "ci" {
+                await runCI()
+                return
+            }
             if CommandLine.arguments[1] == "timeline" {
                 await parseTimeline()
                 return

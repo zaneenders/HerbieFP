@@ -9,17 +9,17 @@ final class ScribeTests: XCTestCase {
         let cands = 3
         let top = Double(200)
         let min = Double(60)
-        var psums:[[Double]] = []
+        var psums: [[Double]] = []
         var canSplit = Array(repeatElement(true, count: points))
 
         for _ in 0..<cands {
-            var errs: [Double]  = []
+            var errs: [Double] = []
             for _ in 0..<points {
                 errs.append(Double.random(in: min...top))
             }
             psums.append(errs)
         }
-        let sums = transpose(psums,canSplit)
+        let sums = transpose(psums, canSplit)
         print(psums)
         print(sums)
     }
