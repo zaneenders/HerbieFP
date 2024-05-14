@@ -19,10 +19,10 @@ let package = Package(
             from: "2.64.0"),
         .package(
             url: "git@github.com:zaneenders/ScribeSystem.git",
-            revision: "6a23a7b"),
+            revision: "fb0d944"),
+        // .package(name: "ScribeSystem", path: "../ScribeSystem/"),
         .package(
             url: "git@github.com:zaneenders/FPCore.git", revision: "6e94678"),
-        // .package(name: "ScribeSystem", path: "../ScribeSystem/"),
         .package(
             url: "https://github.com/swift-server/async-http-client.git",
             from: "1.9.0"),

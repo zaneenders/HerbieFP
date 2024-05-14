@@ -36,6 +36,7 @@ struct HerbieHelper {
                 // await shell(c)
                 do {
                     let points = try await sample()
+                    print(points?.points.count)
                 } catch {
                     print(error)
                 }
@@ -187,34 +188,41 @@ struct HerbieHelper {
             }
 
             if CommandLine.arguments[1] == "http" {
+                let home: String
+                switch System.os {
+                case .macOS:
+                    home = "/Users/zane/"
+                case .linux:
+                    home = "/home/zane/"
+                }
                 print(CommandLine.arguments.count)
                 if CommandLine.arguments.count >= 3 {
                     if CommandLine.arguments[2] == "hamming" {
                         try? httpServer(
-                            "/home/zane/.scribe/Packages/HerbieFP/herbie-fp/herbie/reports/hamming"
+                            "\(home).scribe/Packages/HerbieFP/herbie-fp/herbie/reports/hamming"
                         )
                     }
                     if CommandLine.arguments[2] == "test" {
                         print("test http")
                         try? httpServer(
-                            "/home/zane/.scribe/Packages/HerbieFP/herbie-fp/herbie/zane/test"
+                            "\(home).scribe/Packages/HerbieFP/herbie-fp/herbie/zane/test"
                         )
                     }
                     if CommandLine.arguments[2] == "main" {
                         print("main http")
                         try? httpServer(
-                            "/home/zane/.scribe/Packages/HerbieFP/herbie-fp/herbie/zane/main"
+                            "\(home).scribe/Packages/HerbieFP/herbie-fp/herbie/zane/main"
                         )
                     }
                     if CommandLine.arguments[2] == "unsafe" {
                         print("unsafe http")
                         try? httpServer(
-                            "/home/zane/.scribe/Packages/HerbieFP/herbie-fp/herbie/zane/unsafe"
+                            "\(home).scribe/Packages/HerbieFP/herbie-fp/herbie/zane/unsafe"
                         )
                     }
                 } else {
                     try? httpServer(
-                        "/home/zane/.scribe/Packages/HerbieFP/herbie-fp/herbie/reports"
+                        "\(home).scribe/Packages/HerbieFP/herbie-fp/herbie/reports"
                     )
                 }
             }
