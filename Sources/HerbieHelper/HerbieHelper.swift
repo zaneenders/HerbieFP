@@ -60,6 +60,22 @@ struct HerbieHelper {
                     print(error.localizedDescription)
                 }
             }
+            if CommandLine.arguments[1] == "alts" {
+                do {
+                    try await alts()
+                    return
+                } catch {
+                    print(error.localizedDescription)
+                }
+            }
+            if CommandLine.arguments[1] == "alternatives" {
+                do {
+                    try await alternatives()
+                    return
+                } catch {
+                    print(error.localizedDescription)
+                }
+            }
             if CommandLine.arguments[1] == "up" {
                 do {
                     try await up()
