@@ -65,7 +65,6 @@ func sample() async throws -> HerbieSampleResponse? {
     let body = HerbieRequest(
         formula: "(FPCore (x) (- (sqrt (+ x 1))))", seed: 5)
 
-    /// MARK: - Using Swift Concurrency
     var request = HTTPClientRequest(url: "http://127.0.0.1:8000/api/sample")
     request.method = .POST
     request.body = .bytes(ByteBuffer(string: body.json))
@@ -76,16 +75,6 @@ func sample() async throws -> HerbieSampleResponse? {
         let body = try await response.body.collect(upTo: 1024 * 1024)  // 1 MB
         let rspJson = String(buffer: body)
         return HerbieSampleResponse(json: rspJson)
-        // let fp = FilePath("/Users/zane/.scribe/Packages/HerbieFP/data.json")
-        // let fh = try await _NIOFileSystem.FileSystem.shared.openFile(
-        //     forReadingAndWritingAt: fp,
-        //     options: .modifyFile(createIfNecessary: true))
-        // var writer = fh.bufferedWriter()
-        // print(rspJson.count)
-        // let data = rspJson.data(using: .utf8)!
-        // try await writer.write(contentsOf: data)
-        // try await writer.flush()
-        // try await fh.close()
     } else {
         // handle remote error
         return nil

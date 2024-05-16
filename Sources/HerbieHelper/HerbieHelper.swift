@@ -27,18 +27,45 @@ struct HerbieHelper {
             return
         }
         if CommandLine.arguments.count > 1 {
-            if CommandLine.arguments[1] == "jobs" {
-                FileManager.default.changeCurrentDirectoryPath(herbieRepo)
-                print(FileManager.default.currentDirectoryPath)
-                print("jobs")
-                // let c =
-                //     "racket -y src/herbie.rkt --help"
-                // await shell(c)
+            /*
+            jobs
+            FileManager.default.changeCurrentDirectoryPath(herbieRepo)
+            print(FileManager.default.currentDirectoryPath)
+            print("jobs")
+            // let c =
+            //     "racket -y src/herbie.rkt --help"
+            // await shell(c)
+            */
+            if CommandLine.arguments[1] == "sample" {
                 do {
                     let points = try await sample()
                     print(points?.points.count)
                 } catch {
                     print(error)
+                }
+            }
+            if CommandLine.arguments[1] == "start" {
+                do {
+                    try await improveStart()
+                    return
+                } catch {
+                    print(error.localizedDescription)
+                }
+            }
+            if CommandLine.arguments[1] == "improve" {
+                do {
+                    try await improve()
+                    return
+                } catch {
+                    print(error.localizedDescription)
+                }
+            }
+            if CommandLine.arguments[1] == "up" {
+                do {
+                    try await up()
+                    return
+                } catch {
+                    print(error.localizedDescription)
                 }
             }
             if CommandLine.arguments[1] == "ci" {
