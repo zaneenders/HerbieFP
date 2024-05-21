@@ -62,7 +62,7 @@ struct HerbieHelper {
             }
             if CommandLine.arguments[1] == "alts" {
                 do {
-                    try await alts()
+                    let _ = try await alts()
                     return
                 } catch {
                     print(error.localizedDescription)
@@ -70,7 +70,7 @@ struct HerbieHelper {
             }
             if CommandLine.arguments[1] == "alternatives" {
                 do {
-                    try await alternatives()
+                    let _ = try await alternatives()
                     return
                 } catch {
                     print(error.localizedDescription)
