@@ -16,14 +16,7 @@ func runCI() async {
     await withDiscardingTaskGroup { group in
         for c in cmds {
             group.addTask {
-                print(c)
-                let str = "file:///usr/bin/zsh"
-                let url = URL(string: str)!
-                let process = Process()
-                process.executableURL = url
-                process.arguments = ["-c"] + [c]
-                try? process.run()
-                process.waitUntilExit()
+                await shell(c)
             }
         }
     }
