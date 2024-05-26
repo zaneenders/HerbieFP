@@ -11,7 +11,8 @@ let package = Package(
         .watchOS(.v8),
     ],
     products: [
-        .executable(name: "herbie-helper", targets: ["HerbieHelper"])
+        .executable(name: "herbie-helper", targets: ["HerbieHelper"]),
+        .library(name: "Herbie", targets: ["Herbie"]),
     ],
     dependencies: [
         .package(
@@ -28,6 +29,7 @@ let package = Package(
             from: "1.9.0"),
     ],
     targets: [
+        .target(name: "Herbie"),
         .executableTarget(
             name: "HerbieHelper",
             dependencies: [

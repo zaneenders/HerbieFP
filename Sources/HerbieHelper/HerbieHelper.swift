@@ -2,6 +2,10 @@ import FPCore
 import Foundation
 import ScribeSystem
 
+public enum Herbie {
+
+}
+
 @main
 struct HerbieHelper {
 
