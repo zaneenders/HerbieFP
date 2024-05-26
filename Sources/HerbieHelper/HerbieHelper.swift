@@ -1,5 +1,6 @@
 import FPCore
 import Foundation
+import Herbie
 import ScribeSystem
 
 @main
@@ -8,6 +9,7 @@ struct HerbieHelper {
     static let testPath = "reports"
 
     public static func main() async {
+        print(Herbie.hello("Zane"))
         let packageDir = "\(System.homePath)/.scribe/Packages/HerbieFP"
         let herbieFPPath: String = "\(packageDir)/herbie-fp"
         if !FileSystem.fileExists(atPath: "\(herbieFPPath)") {
@@ -27,6 +29,63 @@ struct HerbieHelper {
             return
         }
         if CommandLine.arguments.count > 1 {
+            /*
+            jobs
+            FileManager.default.changeCurrentDirectoryPath(herbieRepo)
+            print(FileManager.default.currentDirectoryPath)
+            print("jobs")
+            // let c =
+            //     "racket -y src/herbie.rkt --help"
+            // await shell(c)
+            */
+            if CommandLine.arguments[1] == "sample" {
+                do {
+                    let points = try await sample()
+                    print(points?.points.count)
+                } catch {
+                    print(error)
+                }
+            }
+            if CommandLine.arguments[1] == "start" {
+                do {
+                    try await improveStart()
+                    return
+                } catch {
+                    print(error.localizedDescription)
+                }
+            }
+            if CommandLine.arguments[1] == "improve" {
+                do {
+                    try await improve()
+                    return
+                } catch {
+                    print(error.localizedDescription)
+                }
+            }
+            if CommandLine.arguments[1] == "alts" {
+                do {
+                    let _ = try await alts()
+                    return
+                } catch {
+                    print(error.localizedDescription)
+                }
+            }
+            if CommandLine.arguments[1] == "alternatives" {
+                do {
+                    let _ = try await alternatives()
+                    return
+                } catch {
+                    print(error.localizedDescription)
+                }
+            }
+            if CommandLine.arguments[1] == "up" {
+                do {
+                    try await up()
+                    return
+                } catch {
+                    print(error.localizedDescription)
+                }
+            }
             if CommandLine.arguments[1] == "ci" {
                 await runCI()
                 return
@@ -174,34 +233,41 @@ struct HerbieHelper {
             }
 
             if CommandLine.arguments[1] == "http" {
+                let home: String
+                switch System.os {
+                case .macOS:
+                    home = "/Users/zane/"
+                case .linux:
+                    home = "/home/zane/"
+                }
                 print(CommandLine.arguments.count)
                 if CommandLine.arguments.count >= 3 {
                     if CommandLine.arguments[2] == "hamming" {
                         try? httpServer(
-                            "/home/zane/.scribe/Packages/HerbieFP/herbie-fp/herbie/reports/hamming"
+                            "\(home).scribe/Packages/HerbieFP/herbie-fp/herbie/reports/hamming"
                         )
                     }
                     if CommandLine.arguments[2] == "test" {
                         print("test http")
                         try? httpServer(
-                            "/home/zane/.scribe/Packages/HerbieFP/herbie-fp/herbie/zane/test"
+                            "\(home).scribe/Packages/HerbieFP/herbie-fp/herbie/zane/test"
                         )
                     }
                     if CommandLine.arguments[2] == "main" {
                         print("main http")
                         try? httpServer(
-                            "/home/zane/.scribe/Packages/HerbieFP/herbie-fp/herbie/zane/main"
+                            "\(home).scribe/Packages/HerbieFP/herbie-fp/herbie/zane/main"
                         )
                     }
                     if CommandLine.arguments[2] == "unsafe" {
                         print("unsafe http")
                         try? httpServer(
-                            "/home/zane/.scribe/Packages/HerbieFP/herbie-fp/herbie/zane/unsafe"
+                            "\(home).scribe/Packages/HerbieFP/herbie-fp/herbie/zane/unsafe"
                         )
                     }
                 } else {
                     try? httpServer(
-                        "/home/zane/.scribe/Packages/HerbieFP/herbie-fp/herbie/reports"
+                        "\(home).scribe/Packages/HerbieFP/herbie-fp/herbie/reports"
                     )
                 }
             }

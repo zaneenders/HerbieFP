@@ -11,7 +11,8 @@ let package = Package(
         .watchOS(.v8),
     ],
     products: [
-        .executable(name: "herbie-helper", targets: ["HerbieHelper"])
+        .executable(name: "herbie-helper", targets: ["HerbieHelper"]),
+        .library(name: "Herbie", targets: ["Herbie"]),
     ],
     dependencies: [
         .package(
@@ -19,18 +20,28 @@ let package = Package(
             from: "2.64.0"),
         .package(
             url: "git@github.com:zaneenders/ScribeSystem.git",
-            revision: "6a23a7b"),
-        .package(
-            url: "git@github.com:zaneenders/FPCore.git", revision: "b1c89f0"),
+            revision: "fb0d944"),
         // .package(name: "ScribeSystem", path: "../ScribeSystem/"),
+        .package(
+            url: "git@github.com:zaneenders/FPCore.git", revision: "6e94678"),
+        .package(
+            url: "https://github.com/swift-server/async-http-client.git",
+            from: "1.9.0"),
     ],
     targets: [
+        .target(
+            name: "Herbie",
+            dependencies: [
+                .product(name: "_NIOFileSystem", package: "swift-nio")
+            ]),
         .executableTarget(
             name: "HerbieHelper",
             dependencies: [
+                "Herbie",
                 .product(name: "ScribeSystem", package: "ScribeSystem"),
                 .product(name: "_NIOFileSystem", package: "swift-nio"),
                 .product(name: "FPCore", package: "FPCore"),
+                .product(name: "AsyncHTTPClient", package: "async-http-client"),
             ], swiftSettings: swiftSettings),
         .testTarget(
             name: "HerbieTests",
