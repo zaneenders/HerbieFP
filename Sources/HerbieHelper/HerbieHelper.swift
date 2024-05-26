@@ -1,10 +1,7 @@
 import FPCore
 import Foundation
+import Herbie
 import ScribeSystem
-
-public enum Herbie {
-
-}
 
 @main
 struct HerbieHelper {
@@ -12,6 +9,7 @@ struct HerbieHelper {
     static let testPath = "reports"
 
     public static func main() async {
+        print(Herbie.hello("Zane"))
         let packageDir = "\(System.homePath)/.scribe/Packages/HerbieFP"
         let herbieFPPath: String = "\(packageDir)/herbie-fp"
         if !FileSystem.fileExists(atPath: "\(herbieFPPath)") {

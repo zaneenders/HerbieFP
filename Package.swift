@@ -33,6 +33,7 @@ let package = Package(
         .executableTarget(
             name: "HerbieHelper",
             dependencies: [
+                "Herbie",
                 .product(name: "ScribeSystem", package: "ScribeSystem"),
                 .product(name: "_NIOFileSystem", package: "swift-nio"),
                 .product(name: "FPCore", package: "FPCore"),
