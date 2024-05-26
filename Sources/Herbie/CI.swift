@@ -3,7 +3,16 @@ import Foundation
 /*
 4:05 vs 1;40
 */
-func runCI() async {
+public func runCI() async {
+    let path: String
+    switch os {
+    case .linux:
+        path = ""
+    case .macOS:
+        path = "/Users/zane/.scribe/Packages/HerbieFP/herbie-fp/herbie"
+
+    }
+    FileManager.default.changeCurrentDirectoryPath(path)
     print("running ci")
     let cmds = [
         "racket -y infra/ci.rkt --precision binary64 --seed 0 bench/hamming/machine-decide.fpcore",

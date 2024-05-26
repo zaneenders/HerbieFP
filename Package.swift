@@ -29,7 +29,11 @@ let package = Package(
             from: "1.9.0"),
     ],
     targets: [
-        .target(name: "Herbie"),
+        .target(
+            name: "Herbie",
+            dependencies: [
+                .product(name: "_NIOFileSystem", package: "swift-nio")
+            ]),
         .executableTarget(
             name: "HerbieHelper",
             dependencies: [

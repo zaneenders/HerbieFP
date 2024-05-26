@@ -1,15 +1,45 @@
 import Foundation
-import ScribeSystem
 import _NIOFileSystem
 
-func shell(_ cmd: String) async {
+var os: OS {
+    let str = ProcessInfo.processInfo.operatingSystemVersionString
+    /*
+        TODO check for other Operating systems.
+        This should be finite and easy ish to check
+        idk how I want to do versions yet
+        */
+    if str.contains("Ubuntu") {
+        return .linux(.ubuntu(str))
+    } else if str.contains("Red Hat") {
+        return .linux(.redhat(str))
+    } else if str.contains("Fedora Linux") {
+        return .linux(.fedora(str))
+    } else {
+        return .macOS
+    }
+}
+
+enum OS {
+    case macOS
+    case linux(Linux)
+    public enum Linux {
+        case ubuntu(String)
+        case redhat(String)
+        case fedora(String)
+        case centos(String)
+    }
+}
+
+@available(*, deprecated, message: "NOT PUBLIC")
+public func shell(_ cmd: String) async {
     let zsh: String
-    switch System.os {
+    switch os {
     case .macOS:
         zsh = "file:///bin/zsh"
     case .linux:
         zsh = "file:///usr/bin/zsh"
     }
+
     let url = URL(string: zsh)!
     let process = Process()
     process.executableURL = url
@@ -24,15 +54,17 @@ func shell(_ cmd: String) async {
     print("process finished")
 }
 
+@available(*, deprecated, message: "NOT PUBLIC")
 extension String {
-    func encodeURIComponent() -> String? {
+    public func encodeURIComponent() -> String? {
         var characterSet = CharacterSet.alphanumerics
         characterSet.insert(charactersIn: "-_.!~*'()")
         return self.addingPercentEncoding(withAllowedCharacters: characterSet)
     }
 }
 
-func writeStringToFile(
+@available(*, deprecated, message: "NOT PUBLIC")
+public func writeStringToFile(
     _ str: String,
     _ filePath: String = "/Users/zane/.scribe/Packages/HerbieFP/data.json"
 ) async throws {
