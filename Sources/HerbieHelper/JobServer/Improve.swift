@@ -14,7 +14,7 @@ func improve() async throws {
     if response.status == .ok {
         let body = try await response.body.collect(upTo: 1024 * 1024)  // 1 MB
         let rspJson = String(buffer: body)
-        print(rspJson.count)  // HTML garbage
+        print(rspJson)  // HTML garbage
     } else {
         print(response.status)
     }
