@@ -1,8 +1,8 @@
 import Foundation
 
-struct HerbieSampleResponse: Codable {
+public struct HerbieSampleResponse: Codable {
 
-    let points: [Point]
+    public let points: [Point]
 
     enum CodingKeys: String, CodingKey {
         case points = "points"
@@ -33,11 +33,11 @@ struct HerbieSampleResponse: Codable {
 }
 
 extension HerbieSampleResponse {
-    struct Point: Codable {
+    public struct Point: Codable {
         let a: [Double]
         let b: Double
 
-        init(from decoder: any Decoder) throws {
+        public init(from decoder: any Decoder) throws {
             var container = try decoder.unkeyedContainer()
             self.a = try container.decode([Double].self)
             self.b = try container.decode(Double.self)

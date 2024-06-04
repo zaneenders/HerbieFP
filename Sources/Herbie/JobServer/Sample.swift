@@ -1,7 +1,7 @@
 import AsyncHTTPClient
 import NIOCore
 
-func sample() async throws -> HerbieSampleResponse? {
+public func sample() async throws -> HerbieSampleResponse? {
     let body = HerbieRequest(
         formula: "(FPCore (x) (- (sqrt (+ x 1))))", seed: 5)
 

@@ -2,7 +2,7 @@ import AsyncHTTPClient
 import Foundation
 import NIOCore
 
-func up() async throws {
+public func up() async throws {
     var request = HTTPClientRequest(url: "http://127.0.0.1:8000/up")
     request.method = .GET
 

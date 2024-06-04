@@ -2,7 +2,7 @@ import AsyncHTTPClient
 import Foundation
 import NIOCore
 
-func alts() async throws -> HerbieSampleResponse? {
+public func alts() async throws -> HerbieSampleResponse? {
     let body = HerbieRequest(
         formula: "(FPCore (x) (- (sqrt (+ x 1))))", seed: 5)
 
@@ -22,7 +22,7 @@ func alts() async throws -> HerbieSampleResponse? {
     }
 }
 
-func alternatives() async throws -> HerbieSampleResponse? {
+public func alternatives() async throws -> HerbieSampleResponse? {
     let body = HerbieRequest(
         formula: "(FPCore (x) (- (sqrt (+ x 1))))", seed: 5)
 
