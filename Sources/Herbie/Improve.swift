@@ -2,7 +2,7 @@ import AsyncHTTPClient
 import Foundation
 import NIOCore
 
-func improve() async throws {
+public func improve() async throws {
     var request = HTTPClientRequest(url: "http://127.0.0.1:8000/improve")
     request.url +=
         "?"

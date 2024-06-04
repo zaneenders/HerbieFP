@@ -17,7 +17,7 @@ let package = Package(
     dependencies: [
         .package(
             url: "git@github.com:apple/swift-nio.git",
-            from: "2.64.0"),
+            from: "2.66.0"),
         .package(
             url: "git@github.com:zaneenders/ScribeSystem.git",
             revision: "fb0d944"),
@@ -32,7 +32,8 @@ let package = Package(
         .target(
             name: "Herbie",
             dependencies: [
-                .product(name: "_NIOFileSystem", package: "swift-nio")
+                .product(name: "_NIOFileSystem", package: "swift-nio"),
+                .product(name: "AsyncHTTPClient", package: "async-http-client"),
             ]),
         .executableTarget(
             name: "HerbieHelper",

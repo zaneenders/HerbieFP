@@ -1,5 +1,5 @@
 import Foundation
-import NIOFileSystem
+import _NIOFileSystem
 
 func parseResults() async {
     let path =

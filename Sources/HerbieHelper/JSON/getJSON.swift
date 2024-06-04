@@ -1,4 +1,4 @@
-import NIOFileSystem
+import _NIOFileSystem
 
 typealias JSONString = String
 func getJsonString(from path: String) async -> JSONString? {
