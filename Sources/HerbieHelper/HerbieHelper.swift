@@ -39,7 +39,7 @@ struct HerbieHelper {
             */
             if CommandLine.arguments[1] == "sample" {
                 do {
-                    let points = try await sample()
+                    let points = try await Herbie.sample()
                     print(points?.points.count)
                 } catch {
                     print(error)
@@ -47,7 +47,7 @@ struct HerbieHelper {
             }
             if CommandLine.arguments[1] == "start" {
                 do {
-                    try await improveStart()
+                    try await Herbie.improveStart()
                     return
                 } catch {
                     print(error.localizedDescription)
@@ -55,7 +55,7 @@ struct HerbieHelper {
             }
             if CommandLine.arguments[1] == "improve" {
                 do {
-                    try await improve()
+                    try await Herbie.improve()
                     return
                 } catch {
                     print(error.localizedDescription)
@@ -63,7 +63,7 @@ struct HerbieHelper {
             }
             if CommandLine.arguments[1] == "alts" {
                 do {
-                    let _ = try await alts()
+                    let _ = try await Herbie.alts()
                     return
                 } catch {
                     print(error.localizedDescription)
@@ -71,7 +71,7 @@ struct HerbieHelper {
             }
             if CommandLine.arguments[1] == "alternatives" {
                 do {
-                    let _ = try await alternatives()
+                    let _ = try await Herbie.alternatives()
                     return
                 } catch {
                     print(error.localizedDescription)
@@ -79,14 +79,14 @@ struct HerbieHelper {
             }
             if CommandLine.arguments[1] == "up" {
                 do {
-                    try await up()
+                    try await Herbie.up()
                     return
                 } catch {
                     print(error.localizedDescription)
                 }
             }
             if CommandLine.arguments[1] == "ci" {
-                await runCI()
+                await Herbie.runCI()
                 return
             }
             if CommandLine.arguments[1] == "timeline" {

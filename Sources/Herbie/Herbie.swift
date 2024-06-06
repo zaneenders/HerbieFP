@@ -1,3 +1,1 @@
-public enum Herbie {
-    case hello(String)
-}
+public enum Herbie {}
