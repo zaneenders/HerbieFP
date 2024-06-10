@@ -29,7 +29,9 @@ extension Herbie {
                 }
             }
         } else {
-            print(response.status)
+            print(response)
+            let body = try await response.body.collect(upTo: 1024 * 1024)
+            print(String(buffer: body))
         }
     }
 }
