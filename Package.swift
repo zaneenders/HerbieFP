@@ -19,8 +19,11 @@ let package = Package(
             url: "git@github.com:apple/swift-nio.git",
             from: "2.66.0"),
         .package(
-            url: "git@github.com:zaneenders/ScribeSystem.git",
-            revision: "fb0d944"),
+            url: "https://github.com/apple/swift-format.git",
+            from: "510.1.0"),
+        // .package(
+        //     url: "git@github.com:zaneenders/ScribeSystem.git",
+        //     revision: "fb0d944"),
         // .package(name: "ScribeSystem", path: "../ScribeSystem/"),
         .package(
             url: "git@github.com:zaneenders/fp-core.git", revision: "main"),
@@ -39,7 +42,7 @@ let package = Package(
             name: "HerbieHelper",
             dependencies: [
                 "Herbie",
-                .product(name: "ScribeSystem", package: "ScribeSystem"),
+                // .product(name: "ScribeSystem", package: "ScribeSystem"),
                 .product(name: "_NIOFileSystem", package: "swift-nio"),
                 .product(name: "FPCore", package: "fp-core"),
                 .product(name: "AsyncHTTPClient", package: "async-http-client"),
@@ -47,6 +50,21 @@ let package = Package(
         .testTarget(
             name: "HerbieTests",
             dependencies: ["HerbieHelper"]),
+        .plugin(
+            name: "SwiftFormatPlugin",
+            capability: .command(
+                intent: .custom(
+                    verb: "format",
+                    description: "format .scribe Swift Packages"),
+                permissions: [
+                    .writeToPackageDirectory(
+                        reason: "This command reformats swift source files")
+                ]
+            ),
+            dependencies: [
+                .product(name: "swift-format", package: "swift-format")
+            ]
+        ),
     ]
 )
 

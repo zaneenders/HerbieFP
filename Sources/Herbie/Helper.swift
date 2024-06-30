@@ -30,7 +30,6 @@ enum OS {
     }
 }
 
-@available(*, deprecated, message: "NOT PUBLIC")
 public func shell(_ cmd: String) async {
     let zsh: String
     switch os {
@@ -47,6 +46,7 @@ public func shell(_ cmd: String) async {
     do {
         try process.run()
     } catch {
+        // Should we throw?
         print(error)
     }
     print("process started")
