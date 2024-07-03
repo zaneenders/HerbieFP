@@ -26,7 +26,7 @@ let package = Package(
         //     revision: "fb0d944"),
         // .package(name: "ScribeSystem", path: "../ScribeSystem/"),
         .package(
-            url: "git@github.com:zaneenders/fp-core.git", revision: "main"),
+            url: "git@github.com:zaneenders/swift-fpcore.git", revision: "main"),
         .package(
             url: "https://github.com/swift-server/async-http-client.git",
             from: "1.9.0"),
@@ -44,7 +44,7 @@ let package = Package(
                 "Herbie",
                 // .product(name: "ScribeSystem", package: "ScribeSystem"),
                 .product(name: "_NIOFileSystem", package: "swift-nio"),
-                .product(name: "FPCore", package: "fp-core"),
+                .product(name: "FPCore", package: "swift-fpcore"),
                 .product(name: "AsyncHTTPClient", package: "async-http-client"),
             ], swiftSettings: swiftSettings),
         .testTarget(
