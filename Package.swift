@@ -1,4 +1,4 @@
-// swift-tools-version: 5.9
+// swift-tools-version: 5.10
 
 import PackageDescription
 
@@ -6,9 +6,6 @@ let package = Package(
     name: "HerbieFP",
     platforms: [
         .macOS(.v14),
-        .iOS(.v16),
-        .tvOS(.v16),
-        .watchOS(.v8),
     ],
     products: [
         .executable(name: "herbie-helper", targets: ["HerbieHelper"]),
@@ -16,14 +13,11 @@ let package = Package(
     ],
     dependencies: [
         .package(
-            url: "git@github.com:apple/swift-nio.git",
+            url: "https://github.com/apple/swift-nio.git",
             from: "2.66.0"),
-        // .package(
-        //     url: "git@github.com:zaneenders/ScribeSystem.git",
-        //     revision: "fb0d944"),
-        // .package(name: "ScribeSystem", path: "../ScribeSystem/"),
         .package(
-            url: "git@github.com:zaneenders/swift-fpcore.git", revision: "main"),
+            url: "https://github.com/zaneenders/swift-fpcore.git",
+            revision: "main"),
         .package(
             url: "https://github.com/swift-server/async-http-client.git",
             from: "1.9.0"),
@@ -39,7 +33,6 @@ let package = Package(
             name: "HerbieHelper",
             dependencies: [
                 "Herbie",
-                // .product(name: "ScribeSystem", package: "ScribeSystem"),
                 .product(name: "_NIOFileSystem", package: "swift-nio"),
                 .product(name: "FPCore", package: "swift-fpcore"),
                 .product(name: "AsyncHTTPClient", package: "async-http-client"),
