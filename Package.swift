@@ -18,9 +18,6 @@ let package = Package(
         .package(
             url: "git@github.com:apple/swift-nio.git",
             from: "2.66.0"),
-        .package(
-            url: "https://github.com/apple/swift-format.git",
-            from: "510.1.0"),
         // .package(
         //     url: "git@github.com:zaneenders/ScribeSystem.git",
         //     revision: "fb0d944"),
@@ -50,21 +47,6 @@ let package = Package(
         .testTarget(
             name: "HerbieTests",
             dependencies: ["HerbieHelper"]),
-        .plugin(
-            name: "SwiftFormatPlugin",
-            capability: .command(
-                intent: .custom(
-                    verb: "format",
-                    description: "format .scribe Swift Packages"),
-                permissions: [
-                    .writeToPackageDirectory(
-                        reason: "This command reformats swift source files")
-                ]
-            ),
-            dependencies: [
-                .product(name: "swift-format", package: "swift-format")
-            ]
-        ),
     ]
 )
 
