@@ -5,9 +5,17 @@ import NIOCore
 extension Herbie {
     public static func improve() async throws {
         var request = HTTPClientRequest(url: "http://127.0.0.1:8000/improve")
+        let _ = "(FPCore (x) (- (sqrt (+ x 1))))"
+        let fpcore = """
+        (FPCore (lo hi x)
+            :name "xlohi (overflows)"
+            :pre (and (< lo -1e308) (> hi 1e308))
+            :precision binary64
+            (/ (- x lo) (- hi lo)))
+        """
         request.url +=
             "?"
-            + "formula=\("(FPCore (x) (- (sqrt (+ x 1))))".encodeURIComponent()!)"
+            + "formula=\(fpcore.encodeURIComponent()!)"
         request.method = .GET
 
         print(request.url)
